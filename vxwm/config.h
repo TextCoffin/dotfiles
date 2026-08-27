@@ -111,8 +111,6 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0";
 static const char *dmenucmd[] = { NULL };
-static const char *roficmd[] = { "rofi", "-show", "run", NULL };
-static const char *termcmd[]  = { "kitty", NULL };
 
 static const Key keys[] = {
 	{ Mod1Mask, XK_c, spawn, {.v = (const char*[]){"playerctl", "play-pause", NULL }} },
@@ -124,9 +122,9 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask, XK_s, spawn,	SHCMD("~/vxwm/custom/screenshot_all.sh") },
 
 	/* modifier                     key        function        argument */
-        { MODKEY,                       XK_w,      spawn,          {.v = roficmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,		XK_w,	spawn,		{.v = termcmd } },
+        { MODKEY,                       XK_w,      spawn,          {.v = (const char*[]){ "rofi", "-show", "run", NULL }} },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = (const char*[]){ "kitty", NULL }} },
+	{ MODKEY|ShiftMask,		XK_w,	   spawn,	   {.v = (const char*[]){ "kitty", NULL }} },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_a,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_s,      focusstack,     {.i = -1 } },
@@ -212,7 +210,7 @@ static const Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        swapmaster,     {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	{ ClkStatusText,        0,              Button2,        spawn,          {.v = (const char*[]){ "kitty", NULL }} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
