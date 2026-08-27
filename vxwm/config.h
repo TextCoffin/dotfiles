@@ -2,11 +2,6 @@
 
 /* See LICENSE file for copyright and license details. */
 
-/* music const's */
-static const char *mediapausecmd[] = { "playerctl", "play-pause", NULL };
-static const char *medianextcmd[] = { "playerctl", "next", NULL };
-static const char *mediaprevcmd[] = { "playerctl", "previous", NULL };
-
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -70,7 +65,7 @@ static const char *occupiedtags[] = { "1+", "2+", "3+", "4+", "5+", "6+", "7+", 
 /* vxwm will execute this on startup (can be skipped with -ignoreautostart vxwm flag). */
 
 static const char *const autostart[] = {
-	"st",
+	"kitty",
 	NULL /* must end with NULL */
 };
 #endif
@@ -95,7 +90,7 @@ static const int refreshrate = 360;  /* refresh rate (per second) for client mov
 #endif //LOCK_MOVE_RESIZE_REFRESH_RATE
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-  { "><>",      NULL },    /* no layout function means floating behavior */
+	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[]=",      tile },    /* first entry is default */
 	{ "[M]",      monocle },
 };
@@ -107,32 +102,31 @@ static const Layout layouts[] = {
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,                     KEY,      tag,            {.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,		KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+static char dmenumon[2] = "0";
+static const char *dmenucmd[] = { NULL };
 static const char *roficmd[] = { "rofi", "-show", "run", NULL };
 static const char *termcmd[]  = { "kitty", NULL };
 
 static const Key keys[] = {
-	{ Mod1Mask, XK_c, spawn, {.v = mediapausecmd} },
-	{ Mod1Mask, XK_v, spawn, {.v = medianextcmd} },
-	{ Mod1Mask, XK_x, spawn, {.v = mediaprevcmd} },
+	{ Mod1Mask, XK_c, spawn, {.v = (const char*[]){"playerctl", "play-pause", NULL }} },
+	{ Mod1Mask, XK_v, spawn, {.v = (const char*[]){ "playerctl", "next", NULL }} },
+	{ Mod1Mask, XK_x, spawn, {.v = (const char*[]){ "playerctl", "previous", NULL }} },
 
-	{ Mod4Mask|ShiftMask, XK_s, spawn, SHCMD("maim -s | xclip -selection clipboard -t image/png") },
-	{ MODKEY|Mod1Mask,  XK_s,  spawn,          SHCMD("maim | xclip -selection clipboard -t image/png") },
-	{ MODKEY|ControlMask, XK_s, spawn, SHCMD("~/vxwm/custom/screenshot_all.sh") },
+	{ Mod4Mask|ShiftMask, XK_s, spawn,	SHCMD("maim -s | xclip -selection clipboard -t image/png") },
+	{ MODKEY|Mod1Mask,  XK_s,  spawn,	SHCMD("maim | xclip -selection clipboard -t image/png") },
+	{ MODKEY|ControlMask, XK_s, spawn,	SHCMD("~/vxwm/custom/screenshot_all.sh") },
 
 	/* modifier                     key        function        argument */
-        /*{ MODKEY,                       XK_w,      spawn,          {.v = dmenucmd } },*/
-	{ MODKEY,                       XK_w,      spawn,          {.v = roficmd } },
+        { MODKEY,                       XK_w,      spawn,          {.v = roficmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,             XK_w, spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,		XK_w,	spawn,		{.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_a,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_s,      focusstack,     {.i = -1 } },
@@ -165,13 +159,13 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ Mod4Mask|ControlMask|Mod1Mask,             XK_q,      quit,           {0} },
 #if XRDB
-  { MODKEY,                       XK_F5,     xrdb,           {.v = NULL } },
+	{ MODKEY,                       XK_F5,     xrdb,           {.v = NULL } },
 #endif
 #if FULLSCREEN
-  { MODKEY|ShiftMask,             XK_q,      togglefullscr,  {0} },
+	{ MODKEY|ShiftMask,             XK_q,      togglefullscr,  {0} },
 #endif
 #if ENHANCED_TOGGLE_FLOATING
-  { MODKEY,                       XK_z,      enhancedtogglefloating, {0} }, //enhanced toggle floating bind.
+	{ MODKEY,                       XK_z,      enhancedtogglefloating, {0} }, //enhanced toggle floating bind.
 #endif
 #if GAPS
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
@@ -210,8 +204,8 @@ static const Key keys[] = {
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
 #if INFINITE_TAGS
-  { ClkRootWin,      MODKEY|ShiftMask,         Button1,        movecanvasmouse,     {.f = 1.5 } }, 
-  { ClkClientWin,    MODKEY|ShiftMask,         Button1,        movecanvasmouse,     {.f = 1.5 } },
+	{ ClkRootWin,      MODKEY|ShiftMask,         Button1,        movecanvasmouse,     {.f = 1.5 } }, 
+	{ ClkClientWin,    MODKEY|ShiftMask,         Button1,        movecanvasmouse,     {.f = 1.5 } },
   /* .f = 1 is moving multiplier, for example if set to 0.5, canvas will move 2 times slower, if set to 2, canvas will move 2 times faster. 
      If you want inverted canvas move then set the value to a negative value. */
 #endif
@@ -227,12 +221,11 @@ static const Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 /* control canvas - zoom via zooc - super+shift+mousescroll*/
-/* vcompmgr + bc */
 	{ ClkClientWin,         MODKEY|ShiftMask,         Button4,        spawn,          SHCMD("vcompmgr -Z $(echo \"$(vcompmgr -G) + 0.1\" | bc)") },
 	{ ClkClientWin,         MODKEY|ShiftMask,         Button5,        spawn,          SHCMD("vcompmgr -Z $(echo \"$(vcompmgr -G) - 0.1\" | bc)") },
 	{ ClkRootWin,           MODKEY|ShiftMask,         Button4,        spawn,          SHCMD("vcompmgr -Z $(echo \"$(vcompmgr -G) + 0.1\" | bc)") },
 	{ ClkRootWin,           MODKEY|ShiftMask,         Button5,        spawn,          SHCMD("vcompmgr -Z $(echo \"$(vcompmgr -G) - 0.1\" | bc)") },
-/* reset the zoom super+shift+scroll button */
+
 	{ ClkClientWin,         MODKEY|ShiftMask,         Button2,        spawn,          SHCMD("vcompmgr -Z 1") },
 	{ ClkRootWin,           MODKEY|ShiftMask,         Button2,        spawn,          SHCMD("vcompmgr -Z 1") },
 /* switch work space - super + mouse scrool */
