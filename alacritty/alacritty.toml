@@ -1,0 +1,15 @@
+
+[window]
+opacity = 0.85
+blur = true
+
+[font]
+size = 10.0
+
+[font.offset]
+x = 0
+y = -2
+
+[colors.primary]
+background = "#000000"
+foreground = "#e5dbfa"
