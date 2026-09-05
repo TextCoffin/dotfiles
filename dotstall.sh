@@ -39,7 +39,8 @@ read -p "Save (Y/n)" answer
 case "$answer" in
 	[yY]* | "" )
 mkdir savecfg
-	if [ -d ~/.config/fastfetch ] ; then
+echo "if cannot create - already have"
+	if [ -d ~/.config/fastfetch ]; then
 	echo "have"
 		m_a_t "$HOME/.config/fastfetch" "savecfg"
 	
@@ -54,12 +55,20 @@ mkdir savecfg
 	else
 	echo "skip..."
 	fi
-########
+	if [ -d ~/.config/fish ]; then
+	echo "have"
+		m_a_t "$HOME/.config/fish" "savecfg"
+
+	else
+	echo "skip..."
+	fi
 	;;
+########
 	[nY]* )
 	
 		rm -rf ~/.config/fastfetch
 		rm -rf ~/.config/btop
+		rm -rf ~/.config/fish
 
 	echo "ok"
 	;;
@@ -68,8 +77,10 @@ esac
 
 mv dotfiles/fastfetch ~/.config/
 mv dotfiles/btop ~/.config/
+mv dotfiles/fish ~/.config/
 
-rm -rf dotfiles/
+rm -rf ~/dotfiles/
+echo "rm -rf ~/dotfiles/"
 
 echo "eng of script"
 
