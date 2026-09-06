@@ -66,7 +66,7 @@ echo "if cannot create - already have"
 ########
 	;;
 ########
-	[nY]* )
+	[nN]* )
 	
 		rm -rf ~/.config/fastfetch
 		rm -rf ~/.config/btop
