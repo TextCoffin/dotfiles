@@ -41,27 +41,29 @@ case "$answer" in
 mkdir savecfg
 echo "if cannot create - already have"
 	if [ -d ~/.config/fastfetch ]; then
-	echo "have"
+	echo "fastfetch have"
 		m_a_t "$HOME/.config/fastfetch" "savecfg"
 	
 	else
 	echo "skip..."
 	fi
-#########
+########
 	if [ -d ~/.config/btop ]; then
-	echo "have"
+	echo "btop have"
 		m_a_t "$HOME/.config/btop" "savecfg"
 	
 	else
 	echo "skip..."
 	fi
+########
 	if [ -d ~/.config/fish ]; then
-	echo "have"
+	echo "fish have"
 		m_a_t "$HOME/.config/fish" "savecfg"
 
 	else
 	echo "skip..."
 	fi
+########
 	;;
 ########
 	[nY]* )
@@ -74,6 +76,25 @@ echo "if cannot create - already have"
 	;;
 	* )
 esac
+
+read -p "do you need/have alacritty? (N/y)" answer
+case "$answer" in
+	[yY] )
+	if [ -d ~/.config/alacritty ]; then
+        echo "alacritty have"
+		m_a_t "$HOME/.config/alacritty" "savecfg"
+        else
+        echo "skip..."
+        fi
+	rm -rf ~/.config/alacritty
+	mv dotfiles/alacritty ~/.config/
+	;;
+	[nN]* | "" )
+	echo "skip..."
+	;;
+	* )
+esac
+
 
 mv dotfiles/fastfetch ~/.config/
 mv dotfiles/btop ~/.config/
