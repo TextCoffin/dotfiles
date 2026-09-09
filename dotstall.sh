@@ -1,9 +1,5 @@
 #!/bin/sh
-#1v for fastfetch & btop
-#still under development
-
 cd
-git clone https://github.com/TextCoffin/dotfiles.git
 
 m_a_t() {
     if [ -z "$1" ] || [ -z "$2" ]; then
@@ -123,5 +119,3 @@ rm -rf ~/dotfiles/
 echo "rm -rf ~/dotfiles/"
 
 echo "eng of script"
-
-
