@@ -13,7 +13,7 @@ m_a_t() {
         local src="${1%/}"
         local dest="${2%/}"
 
-        if [ ! -d "$src" ]; then
+        if [ ! -e "$src" ]; then
             echo "Error: Source folder '$src' does not exist."
         else
             local folder_name=$(basename "$src")
@@ -95,7 +95,26 @@ case "$answer" in
 	* )
 esac
 
+read -p "do you have vxwm? (N/y)" answer
+case "$answer" in
+	[yY]* )
+	if [ -f ~/vxwm/config.h ]; then
+		mkdir -p savecfg/vxwm
+		m_a_t "$HOME/vxwm/config.h" "savecfg/vxwm"
+	else
+	echo "skip..."
+	fi
+		mv dotfiles/vxwm/config.h ~/vxwm/
+		cd ~/vxwm || exit 1
+		sudo make clean install
+	;;
+	[nN]* | "" )
+	echo "skip..."
+	;;
+	* )
+esac
 
+cd
 mv dotfiles/fastfetch ~/.config/
 mv dotfiles/btop ~/.config/
 mv dotfiles/fish ~/.config/
