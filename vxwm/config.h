@@ -117,9 +117,10 @@ static const Key keys[] = {
 	{ Mod1Mask, XK_v, spawn, {.v = (const char*[]){ "playerctl", "next", NULL }} },
 	{ Mod1Mask, XK_x, spawn, {.v = (const char*[]){ "playerctl", "previous", NULL }} },
 
-	{ Mod4Mask|ShiftMask, XK_s, spawn,	SHCMD("maim -s | xclip -selection clipboard -t image/png") },
-	{ MODKEY|Mod1Mask,  XK_s,  spawn,	SHCMD("maim | xclip -selection clipboard -t image/png") },
-	{ MODKEY|ControlMask, XK_s, spawn,	SHCMD("~/vxwm/custom/screenshot_all.sh") },
+	{ Mod4Mask|ShiftMask,	XK_s,	spawn,	SHCMD("maim -s | xclip -selection clipboard -t image/png") },
+	{ MODKEY|Mod1Mask,	XK_s,	spawn,	SHCMD("maim | xclip -selection clipboard -t image/png") },
+	{ MODKEY|ControlMask,	XK_s,	spawn,	SHCMD("~/vxwm/custom/screenshot_all.sh") },
+	{ MODKEY|ControlMask,	XK_b,	spawn,	SHCMD("~/vxwm/custom/wallpapers_change.sh") },
 
 	/* modifier                     key        function        argument */
         { MODKEY,                       XK_w,      spawn,          {.v = (const char*[]){ "rofi", "-show", "run", NULL }} },
@@ -139,7 +140,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_y,  togglefloating, {0} }, //default toggle floating bind.
+	{ MODKEY|ShiftMask,             XK_y,	togglefloating, {0} }, //default toggle floating bind.
 	{ MODKEY,                       XK_Tab,    view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
